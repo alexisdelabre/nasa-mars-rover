@@ -2,7 +2,7 @@ directions_list = ["N", "E", "S", "W"]
 instructions_list = ["M", "L", "R"]
 
 class Rover():
-    ## CLASS INIT
+    ## —— CLASS INIT
     def __init__(self, pos_x=0, pos_y=0, start_direction="N", land_size=(5,5)):
         self.pos_x = pos_x
         self.pos_y = pos_y
@@ -57,19 +57,26 @@ def nasa_mission():
         #go throught each line to get instructions -> dictionnary (land size + list of rovers)
         clean_instruction = {}
         for i in range(len(Lines)):
+
             #1st line is about the land size -> get it => save it and instanciate rover list
             if i == 0:
                 land_size = (int(Lines[0][0]), int(Lines[0][2])) #tuple of x and y
                 clean_instruction["land_size"] = land_size
                 clean_instruction['rovers'] = []
+
             #other lines -> line is a rover instruction? get it => get this rover attributs from the previous line
             else:
-                if Lines[i][0] in instructions_list:
+                #remove spaces in instructions lines
+                ins_line = Lines[i].replace(" ", "")
+                coord_line = Lines[i-1].replace(" ", "")
+
+                #get rover instructions and position
+                if ins_line[0] in instructions_list:
                     rover = {}
-                    rover["instructions"] = Lines[i][:-1] #instructions str | [:-1] -> remove backline (/n)
-                    rover["pos_x"] = int(Lines[i-1][0]) #position of x from previous line
-                    rover["pos_y"] = int(Lines[i-1][2])
-                    rover["start_direction"] = Lines[i-1][4]
+                    rover["instructions"] = ins_line[:-1] #instructions str | [:-1] -> remove backline (/n)
+                    rover["pos_x"] = int(coord_line[0]) #position of x
+                    rover["pos_y"] = int(coord_line[1])
+                    rover["start_direction"] = coord_line[2]
                     clean_instruction['rovers'].append(rover) #add rover on rovers list
         return clean_instruction
 
