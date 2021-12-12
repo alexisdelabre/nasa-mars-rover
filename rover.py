@@ -2,11 +2,10 @@ directions_list = ["N", "E", "S", "W"]
 
 class Rover():
     ## —— CLASS INIT
-    def __init__(self, pos_x=0, pos_y=0, start_direction="N", land_size=(5, 5)):
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        self.current_direction = start_direction
+    def __init__(self, land_size, pos_x=0, pos_y=0, start_direction="N"):
         self.land_size = land_size
+        self.pos_x, self.pos_y = pos_x, pos_y
+        self.current_direction = start_direction
 
     ## —— MOVE METHOD
     def move(self):
